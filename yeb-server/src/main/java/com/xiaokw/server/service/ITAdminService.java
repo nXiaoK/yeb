@@ -1,9 +1,8 @@
 package com.xiaokw.server.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaokw.server.entity.AjaxResult;
 import com.xiaokw.server.entity.TAdmin;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.xiaokw.server.entity.TMenu;
 import com.xiaokw.server.entity.TRole;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,4 +28,8 @@ public interface ITAdminService extends IService<TAdmin> {
      * @return
      */
     List<TRole> getRoles(Integer adminId);
+
+    List<TAdmin> getAllAdmins(String keywords);
+
+    AjaxResult updateAdminRole(Integer adminId, Integer[] rids);
 }

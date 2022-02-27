@@ -2,7 +2,6 @@ package com.xiaokw.server.exception;
 
 import com.xiaokw.server.entity.AjaxResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -10,7 +9,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 /**
  * 全局异常处理
  */
-@RestControllerAdvice
+//@RestControllerAdvice
 public class GlobalException {
 
     @ExceptionHandler(SQLException.class) // 所有SQLException的异常都会捕获

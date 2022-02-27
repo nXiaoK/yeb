@@ -2,6 +2,9 @@ package com.xiaokw.server.mapper;
 
 import com.xiaokw.server.entity.TDepartment;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface TDepartmentMapper extends BaseMapper<TDepartment> {
 
+    List<TDepartment> getAllDepartment(@Param("parentId") Integer parentId);
+
+    void addDep(TDepartment department);
+
+    void deleteDep(TDepartment tDepartment);
 }

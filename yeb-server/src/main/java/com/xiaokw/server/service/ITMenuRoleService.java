@@ -1,7 +1,7 @@
 package com.xiaokw.server.service;
 
-import com.xiaokw.server.entity.TMenuRole;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xiaokw.server.entity.TMenuRole;
 
 /**
  * <p>
@@ -13,4 +13,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ITMenuRoleService extends IService<TMenuRole> {
 
+    /**
+     * 更新角色菜单
+     * @param rid
+     * @param mids
+     * @return
+     */
+    Boolean updateMenuRole(Integer rid, Integer[] mids);
 }

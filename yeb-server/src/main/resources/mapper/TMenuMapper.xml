@@ -37,6 +37,18 @@
         </collection>
     </resultMap>
 
+    <resultMap id="MenusWithChildren" type="com.xiaokw.server.entity.TMenu" extends="BaseMenus">
+        <collection property="children" ofType="com.xiaokw.server.entity.TMenu">
+            <id column="id2" property="id"/>
+            <result column="name2" property="name"/>
+            <collection property="children" ofType="com.xiaokw.server.entity.TMenu">
+                <id column="id3" property="id"/>
+                <result column="name3" property="name"/>
+
+            </collection>
+        </collection>
+    </resultMap>
+
     <select id="getMenusByAdminId" resultMap="Menus"
             parameterType="java.lang.Integer">
         SELECT
@@ -80,5 +92,24 @@
         WHERE
             m.id = mr.mid AND mr.rid = r.id
         ORDER BY m.id
+    </select>
+    <select id="getAllMenus" resultMap="MenusWithChildren">
+        SELECT
+            m1.id AS id,
+            m1.`name` as name,
+            m2.id AS id2,
+            m2.`name` AS name2,
+            m3.id AS id3,
+            m3.`name` as name3
+        FROM
+            t_menu m1,
+            t_menu m2,
+            t_menu m3
+        WHERE
+            m1.id = m2.parentId
+          AND
+            m2.id = m3.parentId
+          AND
+            m3.enabled = TRUE
     </select>
 </mapper>

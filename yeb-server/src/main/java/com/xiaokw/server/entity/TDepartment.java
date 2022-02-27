@@ -1,17 +1,20 @@
 package com.xiaokw.server.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+import java.util.List;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author xiaok
@@ -43,6 +46,14 @@ public class TDepartment implements Serializable {
 
     @ApiModelProperty("是否上级")
     private Boolean isParent;
+
+    @ApiModelProperty("子部门列表")
+    @TableField(exist = false)
+    private List<TDepartment> children;
+
+    @ApiModelProperty("返回结果,存储过程使用")
+    @TableField(exist = false)
+    private Integer result;
 
 
 }

@@ -7,6 +7,7 @@ import com.xiaokw.server.util.Base64;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 @Api(tags = "验证码")
 @RestController
@@ -30,6 +30,8 @@ public class CaptchaController {
     @Resource(name = "captchaProducerMath")
     private Producer captchaProducerMath;
 
+    @Value("${yeb.captchaOnOff}")
+    private Boolean captchaOnOff;
     @Autowired
     private DefaultKaptcha defaultKaptcha;
 
@@ -39,10 +41,10 @@ public class CaptchaController {
         AjaxResult ajax = AjaxResult.success();
 //        boolean captchaOnOff = configService.selectCaptchaOnOff();
 //        ajax.put("captchaOnOff", captchaOnOff);
-//        if (!captchaOnOff)
-//        {
-//            return ajax;
-//        }
+        if (!captchaOnOff)
+        {
+            return ajax;
+        }
 //
 //        // 保存验证码信息
 //        String uuid = IdUtils.simpleUUID();
@@ -87,6 +89,18 @@ public class CaptchaController {
     @GetMapping(value = "/captcha", produces = "image/jpeg")
     public void captcha(HttpServletRequest request, HttpServletResponse
             response) {
+        // 验证码开关
+        if (!captchaOnOff)
+        {
+            try {
+                response.setCharacterEncoding("UTF-8");
+                response.setContentType("application/json");
+                response.getWriter().print("验证码通道已关闭");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
         // 定义response输出类型为image/jpeg类型
         response.setDateHeader("Expires", 0);
         // Set standard HTTP/1.1 no-cache headers.

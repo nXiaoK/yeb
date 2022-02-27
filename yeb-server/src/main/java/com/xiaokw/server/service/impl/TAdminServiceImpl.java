@@ -4,11 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xiaokw.server.config.security.component.JwtTokenUtil;
 import com.xiaokw.server.entity.AjaxResult;
 import com.xiaokw.server.entity.TAdmin;
+import com.xiaokw.server.entity.TAdminRole;
 import com.xiaokw.server.entity.TRole;
 import com.xiaokw.server.mapper.TAdminMapper;
+import com.xiaokw.server.mapper.TAdminRoleMapper;
 import com.xiaokw.server.mapper.TRoleMapper;
 import com.xiaokw.server.service.ITAdminService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xiaokw.server.util.AdminUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
@@ -18,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +31,7 @@ import java.util.Map;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author xiaok
@@ -46,14 +50,20 @@ public class TAdminServiceImpl extends ServiceImpl<TAdminMapper, TAdmin> impleme
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private TAdminMapper adminMapper;
- @Autowired
+    @Autowired
     private TRoleMapper roleMapper;
+    @Value("${yeb.captchaOnOff}")
+    private Boolean captchaOnOff;
+    @Autowired
+    private TAdminRoleMapper adminRoleMapper;
 
 
     @Value("${jwt.tokenHead}")  //JWT 负载中拿到开头
     private String tokenHead;
+
     /**
      * 登录之后返回token
+     *
      * @param username
      * @param password
      * @param code
@@ -63,7 +73,7 @@ public class TAdminServiceImpl extends ServiceImpl<TAdminMapper, TAdmin> impleme
     @Override
     public AjaxResult login(String username, String password, String code, HttpServletRequest request) {
         String captcha = (String) request.getSession().getAttribute("captcha");
-        if (!StringUtils.hasLength(captcha) || !captcha.equalsIgnoreCase(code)) {
+        if (captchaOnOff && (!StringUtils.hasLength(captcha) || !captcha.equalsIgnoreCase(code))) {
             return AjaxResult.error("验证码输入错误，请重新输入");
         }
         // 登录
@@ -90,6 +100,7 @@ public class TAdminServiceImpl extends ServiceImpl<TAdminMapper, TAdmin> impleme
 
     /**
      * 根据用户名获取用户
+     *
      * @param name
      * @return
      */
@@ -101,12 +112,34 @@ public class TAdminServiceImpl extends ServiceImpl<TAdminMapper, TAdmin> impleme
 
     /**
      * 根据用户id查询角色列表
+     *
      * @param adminId
      * @return
      */
     @Override
     public List<TRole> getRoles(Integer adminId) {
         return roleMapper.getRoles(adminId);
+    }
+
+    @Override
+    public List<TAdmin> getAllAdmins(String keywords) {
+
+        return adminMapper.getAllAdmins(AdminUtil.getCurrentAdmin().getId(), keywords);
+    }
+
+    /**
+     * 更新操作员角色
+     *
+     * @param adminId
+     * @param rids
+     * @return
+     */
+    @Override
+    @Transactional // 表示事物
+    public AjaxResult updateAdminRole(Integer adminId, Integer[] rids) {
+        adminRoleMapper.delete(new QueryWrapper<TAdminRole>().eq("adminId", adminId));
+        return adminRoleMapper.addAdminRole(adminId, rids) == rids.length ? AjaxResult.success("更新成功") : AjaxResult.error("更新失败");
+
     }
 
 

@@ -33,6 +33,17 @@ public class YebConfig
     /** 验证码类型 */
     private static String captchaType;
 
+    /** 验证码开关 */
+    private static String captchaOnOff;
+
+    public static String getCaptchaOnOff() {
+        return captchaOnOff;
+    }
+
+    public static void setCaptchaOnOff(String captchaOnOff) {
+        YebConfig.captchaOnOff = captchaOnOff;
+    }
+
     public String getName()
     {
         return name;

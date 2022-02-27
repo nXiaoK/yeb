@@ -2,6 +2,7 @@ package com.xiaokw.server.mapper;
 
 import com.xiaokw.server.entity.TMenuRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -14,4 +15,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 public interface TMenuRoleMapper extends BaseMapper<TMenuRole> {
 
 
+    /**
+     * 更新角色菜单
+     * @param rid
+     * @param mids
+     * @return
+     */
+    Integer insertRecord(@Param("rid") Integer rid, @Param("mids") Integer[] mids);
 }

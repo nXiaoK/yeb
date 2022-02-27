@@ -1,18 +1,21 @@
 package com.xiaokw.server.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+import java.time.LocalDate;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author xiaok
@@ -37,6 +40,7 @@ public class TEmployee implements Serializable {
     private String gender;
 
     @ApiModelProperty("出生日期")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     private LocalDate birthday;
 
     @ApiModelProperty("身份证号")
@@ -85,6 +89,7 @@ public class TEmployee implements Serializable {
     private String school;
 
     @ApiModelProperty("入职日期")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     private LocalDate beginDate;
 
     @ApiModelProperty("在职状态")
@@ -97,12 +102,15 @@ public class TEmployee implements Serializable {
     private Double contractTerm;
 
     @ApiModelProperty("转正日期")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     private LocalDate conversionTime;
 
     @ApiModelProperty("离职日期")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     private LocalDate notWorkDate;
 
     @ApiModelProperty("合同起始日期")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     private LocalDate beginContract;
 
     @ApiModelProperty("合同终止日期")
@@ -113,6 +121,28 @@ public class TEmployee implements Serializable {
 
     @ApiModelProperty("工资账套ID")
     private Integer salaryId;
+
+    @ApiModelProperty("名族")
+    @TableField(exist = false)
+    private TNation nation;
+
+    @ApiModelProperty("政治面貌")
+    @TableField(exist = false)
+    private TPoliticsStatus politicsStatus;
+
+    @ApiModelProperty("部门")
+    @TableField(exist = false)
+    private TDepartment department;
+
+    @ApiModelProperty("职称")
+    @TableField(exist = false)
+    private TJoblevel joblevel;
+
+    @ApiModelProperty("职位")
+    @TableField(exist = false)
+    private TPosition position;
+
+
 
 
 }

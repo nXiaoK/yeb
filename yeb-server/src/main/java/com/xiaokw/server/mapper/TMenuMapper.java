@@ -18,4 +18,6 @@ public interface TMenuMapper extends BaseMapper<TMenu> {
     List<TMenu> getMenusByAdminId(Integer id);
 
     List<TMenu> getMenusWithRole();
+
+    List<TMenu> getAllMenus();
 }

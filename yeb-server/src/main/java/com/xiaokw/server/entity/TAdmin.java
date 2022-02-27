@@ -4,18 +4,19 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * <p>
@@ -25,8 +26,9 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @author xiaok
  * @since 2022-02-22
  */
-@Getter
-@Setter
+//@Getter
+//@Setter
+@Data
 @TableName("t_admin")
 @ApiModel(value = "TAdmin对象", description = "")
 public class TAdmin implements Serializable , UserDetails {
@@ -50,6 +52,8 @@ public class TAdmin implements Serializable , UserDetails {
     private String address;
 
     @ApiModelProperty("是否启用")
+  // 这里的enabled会和userdetils里的enabled起冲突 所有需要添加此注释
+    @Getter(AccessLevel.NONE)
     private Boolean enabled;
 
     @ApiModelProperty("用户名")

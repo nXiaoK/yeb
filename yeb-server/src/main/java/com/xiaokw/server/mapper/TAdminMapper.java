@@ -1,8 +1,7 @@
 package com.xiaokw.server.mapper;
 
-import com.xiaokw.server.entity.TAdmin;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xiaokw.server.entity.TMenu;
+import com.xiaokw.server.entity.TAdmin;
 
 import java.util.List;
 
@@ -16,4 +15,5 @@ import java.util.List;
  */
 public interface TAdminMapper extends BaseMapper<TAdmin> {
 
+    List<TAdmin> getAllAdmins(Integer id, String keywords);
 }

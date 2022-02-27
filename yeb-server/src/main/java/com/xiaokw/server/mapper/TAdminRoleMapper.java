@@ -1,7 +1,7 @@
 package com.xiaokw.server.mapper;
 
-import com.xiaokw.server.entity.TAdminRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xiaokw.server.entity.TAdminRole;
 
 /**
  * <p>
@@ -12,5 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2022-02-22
  */
 public interface TAdminRoleMapper extends BaseMapper<TAdminRole> {
+
+    Integer addAdminRole(Integer adminId, Integer[] rids);
 
 }

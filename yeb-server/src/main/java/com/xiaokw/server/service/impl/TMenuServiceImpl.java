@@ -1,10 +1,10 @@
 package com.xiaokw.server.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaokw.server.entity.TAdmin;
 import com.xiaokw.server.entity.TMenu;
 import com.xiaokw.server.mapper.TMenuMapper;
 import com.xiaokw.server.service.ITMenuService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -12,7 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -58,5 +57,10 @@ public class TMenuServiceImpl extends ServiceImpl<TMenuMapper, TMenu> implements
     @Override
     public List<TMenu> getMenusWithRole() {
         return menuMapper.getMenusWithRole();
+    }
+
+    @Override
+    public List<TMenu> getAllMenus() {
+        return menuMapper.getAllMenus();
     }
 }
