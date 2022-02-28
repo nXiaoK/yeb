@@ -33,4 +33,6 @@ public interface ITEmployeeService extends IService<TEmployee> {
     AjaxResult addEmp(TEmployee employee);
 
     List<TEmployee> getAllEmployee();
+
+    List<TEmployee> getEmployee(Integer id);
 }

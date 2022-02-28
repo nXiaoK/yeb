@@ -26,7 +26,7 @@ public class RestAuthorizationEntryPoint implements AuthenticationEntryPoint {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         PrintWriter writer = response.getWriter();
-        AjaxResult ajaxResult = AjaxResult.error("尚未登录，请登录！");
+        AjaxResult ajaxResult = AjaxResult.error("尚未登录/token已过期，请登录！");
         ajaxResult.put(AjaxResult.CODE_TAG, HttpStatus.UNAUTHORIZED);
         writer.print(JSON.toJSONString(ajaxResult));
         writer.flush();

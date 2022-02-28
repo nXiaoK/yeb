@@ -3,6 +3,29 @@ server:
   port: 8082
 
 spring:
+  # redis
+  redis:
+    #超时时间
+    timeout: 10s
+    #服务器地址
+    host: localhost
+    #服务器端口
+    port: 6379
+    #数据库
+    database: 0
+    #密码
+    #    password: 2013143492
+    lettuce:
+      pool:
+        #最大连接数
+        max-active: 1024
+        #最大连接阻塞等待时间，默认-1
+        max-wait: 10s
+        #最大空闲连接数
+        max-idle: 200
+        #最小空闲连接
+        min-idle: 5
+
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
