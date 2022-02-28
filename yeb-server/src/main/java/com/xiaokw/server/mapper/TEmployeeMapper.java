@@ -7,6 +7,7 @@ import com.xiaokw.server.entity.TEmployee;
 import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * <p>
@@ -26,4 +27,6 @@ public interface TEmployeeMapper extends BaseMapper<TEmployee> {
      * @return
      */
     IPage<TEmployee> getEmployeeByPage(Page<TEmployee> page, @Param("employee") TEmployee employee, @Param("beginDateScope") LocalDate[] beginDateScope);
+
+    List<TEmployee> getEmployee(Integer o);
 }

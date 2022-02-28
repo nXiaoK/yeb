@@ -25,7 +25,7 @@ server:
 spring:
   mvc:
     pathmatch:
-      matching-strategy: ANT_PATH_MATCHER
+      matching-strategy: ANT_PATH_MATCHER  # 解决Swagger3和Springboot冲突问题
   # 数据源配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -71,6 +71,21 @@ spring:
         max-idle: 200
         #最小空闲连接
         min-idle: 5
+
+
+  # rabbitmq配置
+  rabbitmq:
+    # 用户名
+    username: guest
+    # 密码
+    password: guest
+    # 服务器地址
+    host: localhost
+    # 端口
+    port: 5672
+
+
+
 # Mybatis-plus配置
 mybatis-plus:
   #配置Mapper映射文件
@@ -99,4 +114,12 @@ jwt:
 swagger:
   enabled: true
   pathMapping: /
+
+knife4j:
+  # 开启增强配置
+  enable: true
+  # 开启生产环境屏蔽
+  production: false
+
+
 

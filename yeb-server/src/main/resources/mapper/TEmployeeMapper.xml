@@ -28,6 +28,7 @@
         <result property="contractTerm" column="contractTerm"/>
         <result property="conversionTime" column="conversionTime"/>
         <result property="notWorkDate" column="notWorkDate"/>
+        <result property="beginContract" column="beginContract"/>
         <result property="endContract" column="endContract"/>
         <result property="workAge" column="workAge"/>
         <result property="salaryId" column="salaryId"/>
@@ -63,40 +64,46 @@
         </association>
     </resultMap>
 
+    <sql id="SelectAllEmpById">
+        SELECT e.*,
+               n.id AS aid,
+               n.`name` AS nname,
+               p.id AS pid,
+               p.`name` AS pname,
+               d.id AS did,
+               d.`name` AS dname,
+               d.parentId AS dparentId,
+               d.depPath AS ddepPath,
+               d.enabled AS denabled,
+               d.isParent AS disParent,
+               j.id AS jid,
+               j.`name` AS jname,
+               j.titleLevel AS jtitleLevel,
+               j.createDate AS jcreateDate,
+               j.enabled AS jenabled,
+               pos.id AS posid2,
+               pos.`name` AS posname,
+               pos.createDate AS poscreateDate,
+               pos.enabled AS posenabled
+        FROM t_employee e,
+             t_nation n,
+             t_politics_status p,
+             t_department d,
+             t_joblevel j,
+             t_position pos
+        WHERE e.nationId = n.id
+          AND e.politicId = p.id
+          AND e.departmentId = d.id
+          AND e.jobLevelId = j.id
+          AND e.posId = pos.id
+    </sql>
     <!--获取所有员工（分页）-->
     <select id="getEmployeeByPage" resultMap="EmployInfo">
-        SELECT e.*,
-        n.id AS aid,
-        n.`name` AS nname,
-        p.id AS pid,
-        p.`name` AS pname,
-        d.id AS did,
-        d.`name` AS dname,
-        d.parentId AS dparentId,
-        d.depPath AS ddepPath,
-        d.enabled AS denabled,
-        d.isParent AS disParent,
-        j.id AS jid,
-        j.`name` AS jname,
-        j.titleLevel AS jtitleLevel,
-        j.createDate AS jcreateDate,
-        j.enabled AS jenabled,
-        pos.id AS posid2,
-        pos.`name` AS posname,
-        pos.createDate AS poscreateDate,
-        pos.enabled AS posenabled
-        FROM t_employee e,
-        t_nation n,
-        t_politics_status p,
-        t_department d,
-        t_joblevel j,
-        t_position pos
-        WHERE e.nationId = n.id
-        AND e.politicId = p.id
-        AND e.departmentId = d.id
-        AND e.jobLevelId = j.id
-        AND e.posId = pos.id
+        <include refid="SelectAllEmpById"/>
 
+        <if test="null != employee.id">
+            AND e.id =#{employee.id}
+        </if>
         <if test="null != employee.name and '' != employee.name">
             AND e.`name` LIKE CONCAT( '%', #{employee.name}, '%' )
         </if>
@@ -120,6 +127,14 @@
         </if>
         <if test="null != beginDateScope and 2 == beginDateScope.length">
             AND e.beginDate BETWEEN #{beginDateScope[0]} AND #{beginDateScope[1]}
+        </if>
+        ORDER BY
+        e.id
+    </select>
+    <select id="getEmployee" resultMap="EmployInfo" parameterType="java.lang.Integer">
+        <include refid="SelectAllEmpById"/>
+        <if test="null != id">
+            AND e.id =#{id}
         </if>
         ORDER BY
         e.id

@@ -1,10 +1,12 @@
 package com.xiaokw.server.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.xiaokw.server.entity.AjaxResult;
 import com.xiaokw.server.entity.AjaxResultPage;
 import com.xiaokw.server.entity.TEmployee;
-import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * <p>
@@ -26,4 +28,9 @@ public interface ITEmployeeService extends IService<TEmployee> {
      */
     AjaxResultPage getEmployeeByPage(Integer currentPage, Integer size, TEmployee employee, LocalDate[] beginDateScope);
 
+    AjaxResult getMaxWorkID();
+
+    AjaxResult addEmp(TEmployee employee);
+
+    List<TEmployee> getAllEmployee();
 }

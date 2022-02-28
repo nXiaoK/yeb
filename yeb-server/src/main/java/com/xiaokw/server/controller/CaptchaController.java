@@ -85,7 +85,7 @@ public class CaptchaController {
     }
 
 
-    @ApiOperation(value = "验证码")
+    @ApiOperation(value = "验证码",produces = "image/jpeg")
     @GetMapping(value = "/captcha", produces = "image/jpeg")
     public void captcha(HttpServletRequest request, HttpServletResponse
             response) {

@@ -46,4 +46,10 @@ public class Test {
         System.out.println(3*0.1);
         System.out.println(3*0.1 == 0.3);
     }
+
+    @org.junit.Test
+    public void test3(){
+        Integer a =  800;
+        System.out.println(String.format("%80d", a));
+    }
 }

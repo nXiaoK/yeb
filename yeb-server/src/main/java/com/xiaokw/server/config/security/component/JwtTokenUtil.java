@@ -142,7 +142,7 @@ public class JwtTokenUtil {
      * @return
      */
     private Date generateExpirationDate() {
-        return new Date(System.currentTimeMillis() + expiration * 1000);
+        return new Date(System.currentTimeMillis() + expiration);
     }
 
 }

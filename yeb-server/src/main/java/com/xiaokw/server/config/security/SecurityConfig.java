@@ -50,11 +50,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/profile/**",
                         "/captcha"
                 )
-                .antMatchers("/swagger-ui.html")
                 .antMatchers("/swagger-resources/**")
                 .antMatchers("/webjars/**")
                 .antMatchers("/*/api-docs")
                 .antMatchers("/druid/**");
+        ;
     }
 
     @Override
