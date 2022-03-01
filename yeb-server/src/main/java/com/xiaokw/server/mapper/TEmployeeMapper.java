@@ -29,4 +29,7 @@ public interface TEmployeeMapper extends BaseMapper<TEmployee> {
     IPage<TEmployee> getEmployeeByPage(Page<TEmployee> page, @Param("employee") TEmployee employee, @Param("beginDateScope") LocalDate[] beginDateScope);
 
     List<TEmployee> getEmployee(Integer o);
+
+    IPage<TEmployee> getEmployeeWithSalary(Page<TEmployee> page);
+
 }

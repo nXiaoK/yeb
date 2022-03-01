@@ -35,4 +35,6 @@ public interface ITEmployeeService extends IService<TEmployee> {
     List<TEmployee> getAllEmployee();
 
     List<TEmployee> getEmployee(Integer id);
+
+    AjaxResultPage getEmployeeWithSalary(Integer currentPage, Integer size);
 }

@@ -1,10 +1,13 @@
 package com.xiaokw.server.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -31,6 +34,7 @@ public class TSalary implements Serializable {
     private Integer id;
 
     @ApiModelProperty("基本工资")
+    @Excel(name = "基本工资", width = 10,suffix = "元")
     private Integer basicSalary;
 
     @ApiModelProperty("奖金")
@@ -52,6 +56,7 @@ public class TSalary implements Serializable {
     private Float pensionPer;
 
     @ApiModelProperty("启用时间")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private LocalDateTime createDate;
 
     @ApiModelProperty("医疗基数")

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xiaokw.server.mapper.TEmployeeMapper">
 
-    <resultMap id="EmployInfo" type="com.xiaokw.server.entity.TEmployee">
+    <resultMap id="BaseResultMap" type="com.xiaokw.server.entity.TEmployee">
         <id column="id" property="id"/>
         <result property="name" column="name"/>
         <result property="gender" column="gender"/>
@@ -32,7 +32,8 @@
         <result property="endContract" column="endContract"/>
         <result property="workAge" column="workAge"/>
         <result property="salaryId" column="salaryId"/>
-
+    </resultMap>
+    <resultMap id="EmployInfo" extends="BaseResultMap" type="com.xiaokw.server.entity.TEmployee">
         <association property="nation" javaType="com.xiaokw.server.entity.TNation">
             <id property="id" column="nid"/>
             <result column="nname" property="name"/>
@@ -61,6 +62,27 @@
             <result column="posname" property="name"/>
             <result column="poscreateDate" property="createDate"/>
             <result column="posenabled" property="enabled"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="EmployeeWithSalary" type="com.xiaokw.server.entity.TEmployee" extends="BaseResultMap">
+        <association property="salary" javaType="com.xiaokw.server.entity.TSalary">
+            <id property="id" column="sid"/>
+            <result column="sbasicSalary" property="basicSalary"/>
+            <result column="sbonus" property="bonus"/>
+            <result column="slunchSalary" property="lunchSalary"/>
+            <result column="strafficSalary" property="trafficSalary"/>
+            <result column="sallSalary" property="allSalary"/>
+            <result column="spensionBase" property="pensionBase"/>
+            <result column="spensionPer" property="pensionPer"/>
+            <result column="smedicalBase" property="medicalBase"/>
+            <result column="smedicalPer" property="medicalPer"/>
+            <result column="saccumulationFundBase" property="accumulationFundBase"/>
+            <result column="saccumulationFundPer" property="accumulationFundPer"/>
+            <result column="sname" property="name"/>
+        </association>
+        <association property="department" javaType="com.xiaokw.server.entity.TDepartment">
+            <result column="dname" property="name"/>
         </association>
     </resultMap>
 
@@ -138,5 +160,29 @@
         </if>
         ORDER BY
         e.id
+    </select>
+    <select id="getEmployeeWithSalary" resultMap="EmployeeWithSalary">
+        SELECT
+            e.*,
+            d.`name` AS dname,
+            s.id AS sid,
+            s.`name` AS sname,
+            s.basicSalary AS sbasicSalary,
+            s.bonus AS sbonus,
+            s.lunchSalary AS slunchSalary,
+            s.trafficSalary AS strafficSalary,
+            s.allSalary AS sallSalary,
+            s.pensionPer AS spensionPer,
+            s.pensionBase AS spensionBase,
+            s.medicalBase AS smedicalBase,
+            s.medicalPer AS smedicalPer,
+            s.accumulationFundBase AS saccumulationFundBase,
+            s.accumulationFundPer AS saccumulationFundPer
+        FROM
+            t_employee e
+                LEFT JOIN t_salary s ON e.salaryId = s.id
+                LEFT JOIN t_department d ON e.departmentId = d.id
+        ORDER BY
+            e.id
     </select>
 </mapper>

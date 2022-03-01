@@ -16,15 +16,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.transform.Result;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,6 +143,38 @@ public class TAdminServiceImpl extends ServiceImpl<TAdminMapper, TAdmin> impleme
         adminRoleMapper.delete(new QueryWrapper<TAdminRole>().eq("adminId", adminId));
         return adminRoleMapper.addAdminRole(adminId, rids) == rids.length ? AjaxResult.success("更新成功") : AjaxResult.error("更新失败");
 
+    }
+
+    @Override
+    public AjaxResult updateAdminPassword(Integer adminId, String pass, String oldPass) {
+        TAdmin admin = adminMapper.selectById(adminId);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        // 判断旧密码是否正确
+        if (encoder.matches(oldPass, admin.getPassword())) {
+            admin.setPassword(encoder.encode(pass));
+            int result = adminMapper.updateById(admin);
+            if (result == 1) {
+                return AjaxResult.success("更新成功");
+            }
+        }
+        return AjaxResult.error("更新失败");
+
+    }
+
+    @Override
+    public AjaxResult updateAdminUserFace(String url, Integer id, Authentication authentication) {
+        TAdmin admin = adminMapper.selectById(id);
+        admin.setUserFace(url);
+        int result = adminMapper.updateById(admin);
+        if (1 == result) {
+            TAdmin principal = (TAdmin) authentication.getPrincipal();
+            principal.setUserFace(url);
+            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(admin, null, authentication.getAuthorities()));
+            AjaxResult success = AjaxResult.success("更新成功");
+            success.put("url", url);
+            return success;
+        }
+        return AjaxResult.error("更新失败");
     }
 
 

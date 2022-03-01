@@ -103,4 +103,12 @@ public class TEmployeeServiceImpl extends ServiceImpl<TEmployeeMapper, TEmployee
     public List<TEmployee> getEmployee(Integer id) {
         return employeeMapper.getEmployee(id);
     }
+
+    @Override
+    public AjaxResultPage getEmployeeWithSalary(Integer currentPage, Integer size) {
+        Page<TEmployee> page = new Page<>(currentPage, size);
+        IPage<TEmployee> employeeIPage = employeeMapper.getEmployeeWithSalary(page);
+        AjaxResultPage ajaxResultPage = new AjaxResultPage(employeeIPage.getTotal(), employeeIPage.getRecords());
+        return ajaxResultPage;
+    }
 }
